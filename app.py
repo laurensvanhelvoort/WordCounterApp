@@ -47,12 +47,15 @@ def calculate_averages(input_string, sentences):
         return 0, 0
 
 
-def reading_time_estimate(word_cnt):
+def reading_time_estimate(word_cnt, input_string):
     avg_wps = 200 / 60
     reading_time = round(word_cnt / avg_wps)
 
     if reading_time < 60:
-        reading_time = 1 if reading_time < 1 else reading_time
+        if not input_string:
+            reading_time = 0
+        else:
+            reading_time = 1 if reading_time < 1 else reading_time
         return f"{reading_time} seconds"
     else:
         minutes = reading_time // 60
@@ -86,12 +89,12 @@ def main():
     sentences = extract_sentences(user_input)
     st.markdown(f"#### :blue[{len(sentences)}] sentences")
 
-    st.markdown(f"#### Reading time: :blue[{reading_time_estimate(word_count)}]")
+    st.markdown(f"#### Reading time: :blue[{reading_time_estimate(word_count, user_input)}]")
 
     st.markdown("#### Averages")
     average_word_length, average_sentence_length = calculate_averages(user_input, sentences)
-    st.markdown(f"- Average amount of characters in a word:  :blue[{average_word_length}]")
-    st.markdown(f"- Average amount of words in a sentence: :blue[{average_sentence_length}]")
+    st.markdown(f"- Average amount of characters per word:  :blue[{average_word_length}]")
+    st.markdown(f"- Average amount of words per sentence: :blue[{average_sentence_length}]")
 
     st.markdown("#### Keyword Frequency")
     with st.expander("Click to expand/collapse"):
