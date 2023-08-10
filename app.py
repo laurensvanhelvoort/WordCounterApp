@@ -3,6 +3,7 @@ import streamlit as st
 import string
 import pandas as pd
 import nltk
+
 nltk.download('punkt')
 
 
@@ -51,6 +52,7 @@ def reading_time_estimate(word_cnt):
     reading_time = round(word_cnt / avg_wps)
 
     if reading_time < 60:
+        reading_time = 1 if reading_time < 1 else reading_time
         return f"{reading_time} seconds"
     else:
         minutes = reading_time // 60
@@ -62,7 +64,12 @@ def reading_time_estimate(word_cnt):
 
 
 def main():
-    st.title("Word counter")
+    st.set_page_config(
+        page_title="WordCounter",
+        page_icon=":bookmark_tabs:",
+    )
+
+    st.title("Word counter  :bookmark_tabs:")
     st.write('<style>textarea::placeholder { color: #808080; }</style>', unsafe_allow_html=True)
     user_input = st.text_area("Press Ctrl + Enter to analyze your text", placeholder="Enter your text here...",
                               key="text_input", height=250)
@@ -71,12 +78,11 @@ def main():
     char_count = count_chars(user_input)
 
     st.write("---")
-    st.header("Basic")
+    st.header("Basic :large_green_circle:")
     st.subheader(f":blue[{word_count}] words and :blue[{char_count}] characters")
 
     st.write("---")
-
-    st.header("Advanced")
+    st.header("Advanced :large_purple_circle:")
     sentences = extract_sentences(user_input)
     st.markdown(f"#### :blue[{len(sentences)}] sentences")
 
