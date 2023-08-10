@@ -3,6 +3,7 @@ import streamlit as st
 import string
 import pandas as pd
 import nltk
+nltk.download('punkt')
 
 
 def count_words(input_string):
